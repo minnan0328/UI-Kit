@@ -1,0 +1,78 @@
+@import '@/styles/_var.scss';
+
+@mixin checked-action($image-name, $bg-color, $border-color) {
+    background: url('@/assets/images/elements/#{$image-name}') no-repeat center;
+    background-size: contain;
+    background-color: $bg-color;
+    border-color: $border-color;
+}
+
+@mixin indeterminate-action($checked-color, $bg-color, $border-color) {
+    background-color: $bg-color;
+    border-color: $border-color;
+    position: relative;
+
+    &::after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: 60%;
+        height: 1px;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        background-color: $checked-color;
+    }
+}
+
+input[type='checkbox'] {
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background-color: #394755;
+    border: 1px solid #394755;
+    border-radius: 2px;
+    vertical-align: middle;
+    cursor: pointer;
+    transition: background 0.15s ease-in-out;
+    outline: none;
+
+    &:checked {
+        @include checked-action('check.svg', $blue, $blue);
+    }
+
+    &:indeterminate {
+        @include indeterminate-action($white, $blue, $blue);
+    }
+
+    &:disabled {
+        background-color: #4f5b67;
+        border-color: #4f5b67;
+        cursor: no-drop !important;
+        
+        & + label {
+            color: rgba($black, .4);
+            cursor: no-drop !important;
+        }
+    }
+}
+
+input[type='checkbox'] + label {
+    line-height: 1;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-left: 8px;
+    color: $navy;
+}
+
+.checkbox-item {
+    display: inline-block;
+    margin-right: 16px;
+}
+
+.checkbox-group > .checkbox-item:last-child {
+    margin-right: 0;
+}
+
