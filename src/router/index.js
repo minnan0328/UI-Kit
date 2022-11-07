@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import url from './uri';
+import url from './url';
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,6 +20,16 @@ const router = createRouter({
 				}
 			]
 		},
+		{
+			// 403 頁面
+			...url.unauthorized,
+			component: () => import('@/views/error/unauthorized.vue')
+		},
+		{
+			// 404 頁面
+			...url.notFound,
+			component: () => import('@/views/error/not-found.vue')
+		}
 	]
 });
 
