@@ -1,0 +1,20 @@
+@font-face {
+    font-family: iconfont;
+    src: url("iconfont.woff2?d04252d3") format("woff2"),
+             url("iconfont.woff?d04252d3") format("woff"); 
+    font-weight: normal;
+    font-style: normal;
+}
+
+[class^="icon"], [class*=" icon"] {
+    font-family: 'iconfont' !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-style: normal;
+}
+
+
+.icon-close::before {
+    content: "\554a";
+}
+

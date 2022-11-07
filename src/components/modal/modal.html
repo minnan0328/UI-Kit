@@ -1,0 +1,10 @@
+<div>
+    <div v-if="enable && show" ref="modal" class="modal" :class="{'show': show, 'not-background': enableBackground == false }" @click="backClick">
+        <div class="modal-body">
+            <slot></slot>
+        </div>
+    </div>
+    <div v-else-if="show">
+        <slot></slot>
+    </div>
+</div>
