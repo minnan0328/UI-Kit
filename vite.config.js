@@ -11,8 +11,7 @@ export default defineConfig({
 	plugins: [
 		vue(),
 		EnvironmentPlugin({
-			IS_DEV: config.isDev,
-			Proxy_Path: config.APIProxyPath
+			IS_DEV: config.isDev
 		}),
 		new WebpackIconfontPluginNodejs({
             cssPrefix: 'icon',
@@ -25,7 +24,11 @@ export default defineConfig({
 	css: {
         devSourcemap: config.isDev
     },
-	server: config.server,
+	server: {
+		host: true,
+		port: 8082,
+		proxy: {}
+	},
 	resolve: {
 		alias: {
 			'@': fileURLToPath(new URL('./src', import.meta.url))

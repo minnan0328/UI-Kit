@@ -1,17 +1,14 @@
 <template>
-    
+    <div>carousel</div>
 </template>
 <script>
 import { ref } from 'vue';
 import url from '@/router/url';
 
 export default {
-    name: url.home.name,
     setup() {
-        const urlPath = ref(url);
 
-
-        return { urlPath };
+        return {  };
     }
 }
 </script>

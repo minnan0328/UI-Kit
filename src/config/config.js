@@ -1,6 +1,5 @@
 const config = {
-    isDev: process.env.IS_DEV,
-    APIProxyPath: process.env.API_Proxy_Path,
+    isDev: process.env.IS_DEV
 }
 
 export default config;

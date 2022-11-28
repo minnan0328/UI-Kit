@@ -1,4 +1,4 @@
-@import '@/styles/_var.scss';
+@import '@/styles/_var';
 
 @mixin checked-action($image-name, $bg-color, $border-color) {
     background: url('@/assets/images/elements/#{$image-name}') no-repeat center;
@@ -64,7 +64,7 @@ input[type='checkbox'] + label {
     vertical-align: middle;
     cursor: pointer;
     margin-left: 8px;
-    color: $navy;
+    color: $black;
 }
 
 .checkbox-item {

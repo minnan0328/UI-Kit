@@ -1,18 +1,14 @@
 <template>
-    <div>
-        dialog
-        <router-link :to="{ name: urlPath.home.name }">{{ urlPath.home.meta.title }}</router-link>
-    </div>
+    <div>dialog</div>
 </template>
 <script>
 import { ref } from 'vue';
-import url from '@/router/uri';
+import url from '@/router/url';
 
 export default {
     setup() {
-        const urlPath = ref(url);
 
-        return { urlPath };
+        return {  };
     }
 }
 </script>

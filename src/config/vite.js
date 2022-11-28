@@ -5,22 +5,13 @@ const base = {
 const config = {
     dev: {
         ...base,
-        APIProxyPath: '',
-        server: {
-            host: true,
-            port: 8082,
-            proxy: {}
-        }
+
     },
     lab: {
         ...base,
-        APIProxyPath: '',
-        server: {}
     },
     prod: {
         ...base,
-        APIProxyPath: '',
-        server: {}
     }
 }
 console.log(process.env.type);

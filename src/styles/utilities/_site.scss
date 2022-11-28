@@ -1,0 +1,27 @@
+@import '@/styles/_var';
+
+body {
+    font-family: PingFang TC, PingFang SC, 微軟正黑體, Arial, Microsoft;
+    color: $black;
+    background-color: $white;
+    line-height: 1.5;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+[class*='icon-'] {
+    font-size: $font-size-20;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+a {
+    color: $black;
+    text-decoration: none;
+
+    &:hover, &:active, &.active {
+        color: $emerald;
+        text-decoration: none;
+    }
+}

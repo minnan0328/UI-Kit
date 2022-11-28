@@ -7,7 +7,6 @@ const router = createRouter({
 		{
 			path: '/',
 			component: () => import('@/views/layout/layout.vue'),
-			meta: { auth: true },
 			redirect: url.home,
 			children: [
 				{
@@ -17,6 +16,10 @@ const router = createRouter({
 				{
 					...url.dialog,
 					component: () => import('@/views/dialog/dialog.vue')
+				},
+				{
+					...url.carousel,
+					component: () => import('@/views/carousel/carousel.vue')
 				}
 			]
 		},
