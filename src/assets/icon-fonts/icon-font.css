@@ -1,7 +1,7 @@
 @font-face {
     font-family: iconfont;
-    src: url("iconfont.woff2?d04252d3") format("woff2"),
-             url("iconfont.woff?d04252d3") format("woff"); 
+    src: url("iconfont.woff2?04c4b6c9") format("woff2"),
+             url("iconfont.woff?04c4b6c9") format("woff"); 
     font-weight: normal;
     font-style: normal;
 }
@@ -14,7 +14,39 @@
 }
 
 
-.icon-close::before {
+.icon-arrow-down::before {
     content: "\554a";
+}
+
+.icon-arrow-left::before {
+    content: "\554b";
+}
+
+.icon-arrow-right::before {
+    content: "\554c";
+}
+
+.icon-arrow-up::before {
+    content: "\554d";
+}
+
+.icon-calendar::before {
+    content: "\554e";
+}
+
+.icon-clock::before {
+    content: "\554f";
+}
+
+.icon-close::before {
+    content: "\5550";
+}
+
+.icon-info::before {
+    content: "\5551";
+}
+
+.icon-menu-left::before {
+    content: "\5552";
 }
 
