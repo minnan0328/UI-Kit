@@ -1,13 +1,15 @@
 <template>
     <menus></menus>
-    <router-view class="view"></router-view>
+    <div class="view">
+        <router-view></router-view>
+    </div>
 </template>
 
 <script>
 import menus from './menus/menus.vue';
 
 export default {
-    components: {menus}
+    components: { menus }
 }
 </script>
 <style lang="scss" scoped>
