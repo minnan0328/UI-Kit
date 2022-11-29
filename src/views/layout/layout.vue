@@ -14,6 +14,6 @@ export default {
 </script>
 <style lang="scss" scoped>
     .view {
-        padding: 16px;
+        // padding: 16px;
     }
 </style>
