@@ -1,8 +1,8 @@
 <template>
     <div class="full-carousel">
-        <div class="media">
-            <slot name="media"></slot>
-        </div>
+        <transition-group tag="div" class="media" :name="transitionName">
+            <slot name="media" :key="4"></slot>
+        </transition-group>
 
         <template v-if="navigationEnabled">
             <button class="btn-icon btn-media icon-arrow-left"></button>
@@ -15,7 +15,7 @@
 <style lang="scss" scoped src="./full-carousel.scss"></style>
 
 <script>
-import { ref, reactive, computed, watch, onMounted } from 'vue';
+import { ref, reactive, computed, watch, onMounted, getCurrentInstance  } from 'vue';
 import mediaType from '@/models/enum/media-type.js';
 
 export default {
@@ -33,8 +33,16 @@ export default {
             default: true
         }
     },
-    setup(props) {
-        
+    setup(props,context) {
+        const app = getCurrentInstance();
+        const globalPlugins = app.appContext.config.globalProperties;
+
+        const transitionName = 'carousel-slide-left';
+
+
+        return {
+            transitionName
+        };
     }
 }
 </script>

@@ -1,8 +1,8 @@
 <template>
     <div>carousel</div>
     <fullCarousel :perPage="options.length">
-        <template  v-slot:media v-for="(option ,idx) in options" :key="idx">
-                <img :src="option.media" :alt="option.mediaText">
+        <template  v-slot:media>
+                <img v-for="(option ,idx) in options" :key="idx" :src="option.media" :alt="option.mediaText">
         </template>
     </fullCarousel>
 </template>
