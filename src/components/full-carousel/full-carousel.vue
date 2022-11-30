@@ -1,8 +1,18 @@
 <template>
     <div class="full-carousel">
-        <transition-group tag="div" class="media" :name="transitionName">
-            <slot name="media" :key="4"></slot>
+        <transition-group tag="div" class="medias" :name="transitionName" ref="medias">
+            <!-- <div class="page" v-if="$slots.default">
+            </div> -->
+            <!-- <img v-for="(option ,idx) of options" :key="idx" :src="option.media" :alt="option.mediaText"  /> -->
+
+            <!-- <slot name="default"></slot> -->
+
+
+            <div class="page" v-for="(option ,index) of options" :key="index" v-show="(index === currentPage)">
+                <img :src="option.media" :alt="option.mediaText" >
+            </div>
         </transition-group>
+        
 
         <template v-if="navigationEnabled">
             <button class="btn-icon btn-media icon-arrow-left"></button>
@@ -16,10 +26,12 @@
 
 <script>
 import { ref, reactive, computed, watch, onMounted, getCurrentInstance  } from 'vue';
-import mediaType from '@/models/enum/media-type.js';
 
 export default {
     props: {
+        options: {
+            type: Object
+        },
         perPage: {
             type: Number,
             default: 1
@@ -33,15 +45,18 @@ export default {
             default: true
         }
     },
-    setup(props,context) {
+    setup(props, context) {
         const app = getCurrentInstance();
         const globalPlugins = app.appContext.config.globalProperties;
 
-        const transitionName = 'carousel-slide-left';
+        const transitionName = 'carousel-slide-right';
+        const media = ref();
+        const currentPage = ref(0);
+        const numOfPages = ref(context.slots.default()[0].children.length - 1);
 
 
         return {
-            transitionName
+            transitionName, currentPage
         };
     }
 }
