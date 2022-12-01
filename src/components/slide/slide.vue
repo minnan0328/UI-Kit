@@ -16,7 +16,6 @@ export default {
         const { currentSlide, navigationType } = inject('carousel');
 
         watch([currentSlide, navigationType], ([newValue, newType], [oldValue, oldType]) => {
-            console.log(newValue, oldValue, newType, oldType);
             if(newType === 'next') {
                 transitionName.value = 'carousel-slide-right';
             } else if(newType === 'prev') {
