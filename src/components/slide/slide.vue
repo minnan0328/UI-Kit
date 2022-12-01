@@ -13,16 +13,24 @@ export default {
     setup() {
         
         const transitionName = ref('carousel-slide-right');
-        const { currentSlide, navigationType } = inject('carousel');
+        const { currentSlide, slideAmount } = inject('carousel');
 
-        watch([currentSlide, navigationType], ([newValue, newType], [oldValue, oldType]) => {
-            if(newType === 'next') {
-                transitionName.value = 'carousel-slide-right';
-            } else if(newType === 'prev') {
-                transitionName.value = 'carousel-slide-left';
-            } else {
-                transitionName.value = 'carousel-slide-right';
-            };
+        watch(currentSlide, (newValue, oldValue) => {
+            // if(oldValue < 0) {
+            //     transitionName.value = 'carousel-slide-right';
+            // } else if(oldValue > slideAmount.length -1) {
+            //     transitionName.value = 'carousel-slide-left';
+            // } else {
+            //     transitionName.value = newValue > oldValue ? 'carousel-slide-right' : 'carousel-slide-left';
+            // }
+            transitionName.value = oldValue < 0
+                ? 'carousel-slide-right'
+                : oldValue > slideAmount.length -1
+                ? 'carousel-slide-left'
+                : newValue > oldValue
+                ? 'carousel-slide-right'
+                : 'carousel-slide-left';
+
         });
 
         return {
