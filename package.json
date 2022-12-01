@@ -6,11 +6,13 @@
     "dev": "cross-env type=dev vite",
     "build:lab": "cross-env type=lab vite build",
     "build:prod": "cross-env type=prod vite build",
+    "deploy": "npm run build:prod && gh-pages -d dist",
     "preview": "vite preview"
   },
   "dependencies": {
     "axios": "^1.1.3",
     "dayjs": "^1.11.6",
+    "gh-pages": "^4.0.0",
     "js-cookie": "^3.0.1",
     "lodash": "^4.17.21",
     "pinia": "^2.0.23",

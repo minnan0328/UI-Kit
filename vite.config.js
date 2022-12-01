@@ -8,6 +8,7 @@ import config from './src/config/vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+	base: '/Vue-UI-Kit/',
 	plugins: [
 		vue(),
 		EnvironmentPlugin({
