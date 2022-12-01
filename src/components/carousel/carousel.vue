@@ -26,7 +26,7 @@ export default {
         },
         timeDetention: {
             type: Number,
-            default: 1000
+            default: 5000
         },
         navigationEnabled: {
             type: Boolean,
