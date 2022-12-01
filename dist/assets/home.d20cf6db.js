@@ -1,0 +1,1 @@
+import{_ as a,u as e,k as t,a as r,o as n,g as l}from"./index.304d549f.js";import{f as _}from"./full-carousel.3f41e4e3.js";const c={name:e.home.name,components:{fullCarousel:_},setup(){return{urlPath:t(e)}}};function u(o,p,f,m,d,h){const s=r("fullCarousel");return n(),l(s,{class:"full-carousel"})}const x=a(c,[["render",u],["__scopeId","data-v-a6e8f038"]]);export{x as default};

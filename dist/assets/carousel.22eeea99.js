@@ -1,0 +1,1 @@
+import{f as o}from"./full-carousel.3f41e4e3.js";import{_ as r}from"./index.304d549f.js";const s={components:{fullCarousel:o},setup(){}};function t(e,n,c,a,p,f){return null}const l=r(s,[["render",t]]);export{l as default};
