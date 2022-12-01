@@ -1,5 +1,6 @@
 <template>
     <menus></menus>
+
     <div class="view">
         <router-view></router-view>
     </div>
@@ -12,8 +13,4 @@ export default {
     components: { menus }
 }
 </script>
-<style lang="scss" scoped>
-    .view {
-        // padding: 16px;
-    }
-</style>
+<style lang="scss" scoped></style>

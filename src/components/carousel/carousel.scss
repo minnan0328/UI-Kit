@@ -1,0 +1,78 @@
+@import '@/styles/_var';
+.carousel {
+    position: relative;
+    overflow: hidden;
+    width: 100vw;
+    height: 100vh;
+
+
+    &::v-deep(.slide) {
+        position: absolute;
+        height: 100vh;
+
+        img {
+            height: 100vh;
+            object-fit: contain;
+        }
+    }
+
+    .navigation {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: inherit;
+        height: inherit;
+
+        .btn-media {
+            color: $white;
+            max-width: 48px;
+            max-height: 48px;
+            font-size: 48px;
+            border-radius: 50%;
+            background-color: rgba($white, 0.3);
+
+            &:hover {
+                background-color: $emerald;
+            }
+
+            &.icon-arrow-left {
+                flex: 1;
+                display: flex;
+                justify-content: flex-start;
+                margin-left: 32px;
+            }
+
+            &.icon-arrow-right {
+                flex: 1;
+                display: flex;
+                justify-content: flex-end;
+                margin-right: 32px;
+            }
+        }
+    }
+
+    .pagination {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        bottom: 32px;
+
+
+        .btn-pagination {
+            width: 16px;
+            height: 16px;
+            background-color: rgba($white, .3);
+            border-radius: 50px;
+
+            &:not(:last-child) {
+                margin-right: 16px;
+            }
+
+            &.active {
+                background-color: $emerald;
+            }
+        }
+    }
+}

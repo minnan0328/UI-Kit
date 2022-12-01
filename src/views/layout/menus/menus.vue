@@ -27,12 +27,15 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-
+@import '@/styles/_var';
 .menus {
     height: 70px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: sticky;
+    z-index: 2;
+    background-color: rgba($white, .5);
 
     .menu-item {
         display: inline-block;

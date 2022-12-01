@@ -1,63 +1,31 @@
 <template>
-    <div class="full-carousel">
-        <transition-group tag="div" class="medias" :name="transitionName" ref="medias">
-            <!-- <div class="page" v-if="$slots.default">
-            </div> -->
-            <!-- <img v-for="(option ,idx) of options" :key="idx" :src="option.media" :alt="option.mediaText"  /> -->
-
-            <!-- <slot name="default"></slot> -->
-
-
-            <div class="page" v-for="(option ,index) of options" :key="index" v-show="(index === currentPage)">
-                <img :src="option.media" :alt="option.mediaText" >
-            </div>
-        </transition-group>
-        
-
-        <template v-if="navigationEnabled">
-            <button class="btn-icon btn-media icon-arrow-left"></button>
-            <button class="btn-icon btn-media icon-arrow-right"></button>
-        </template>
-
-    </div>
+    <carousel v-slot:default="{ currentSlide }">
+        <slide v-for="(option ,idx) of options" :key="idx" v-show="(idx ===currentSlide)" >
+            <img :src="option.media" :alt="option.mediaText" />
+        </slide>
+    </carousel>
 </template>
 
-<style lang="scss" scoped src="./full-carousel.scss"></style>
-
 <script>
-import { ref, reactive, computed, watch, onMounted, getCurrentInstance  } from 'vue';
+import { reactive  } from 'vue';
+import carousel from '@/components/carousel/carousel.vue';
+import slide from '@/components/slide/slide.vue';
+import mediaType from '@/models/enum/media-type.js';
 
 export default {
-    props: {
-        options: {
-            type: Object
-        },
-        perPage: {
-            type: Number,
-            default: 1
-        },
-        navigationEnabled: {
-            type: Boolean,
-            default: true
-        },
-        autoPlay: {
-            type: Boolean,
-            default: true
-        }
-    },
+    components: { carousel, slide },
     setup(props, context) {
-        const app = getCurrentInstance();
-        const globalPlugins = app.appContext.config.globalProperties;
 
-        const transitionName = 'carousel-slide-right';
-        const media = ref();
-        const currentPage = ref(0);
-        const numOfPages = ref(context.slots.default()[0].children.length - 1);
+        const options = reactive([
+            { url: '', media: new URL('@/assets/images/full-images/annie-spratt-S7viz8JWxwY-unsplash.jpg', import.meta.url).href, mediaText: 'annie', mediaType: mediaType.image },
+            { url: '', media: new URL('@/assets/images/full-images/daiga-ellaby-ClWvcrkBhMY-unsplash.jpg',import.meta.url).href, mediaText: 'daiga', mediaType: mediaType.image},
+            { url: '', media: new URL('@/assets/images/full-images/josefin-WS5yjFjycNY-unsplash.jpg',import.meta.url).href, mediaText: 'daiga', mediaType: mediaType.image},
+        ])
 
-
-        return {
-            transitionName, currentPage
-        };
+        return { options };
     }
 }
 </script>
+
+<style lang="scss" scoped></style>
+
