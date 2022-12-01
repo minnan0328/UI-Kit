@@ -16,7 +16,7 @@
 </template>
 <script>
 
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, provide } from 'vue';
 
 export default {
     props: {
@@ -81,6 +81,8 @@ export default {
         const pauseAutoPlay = () => {
             clearInterval(interval.value);
         };
+
+        provide('carousel', { currentSlide });
 
         onMounted(() => {
             slideElement.value = document.querySelectorAll('.slide');

@@ -7,13 +7,21 @@
 </template>
 
 <script>
-import { ref, reactive, computed, watch, onMounted, getCurrentInstance  } from 'vue';
-
+import { ref, watch, inject  } from 'vue';
 
 export default {
     setup() {
+        
+        const { currentSlide } = inject('carousel');
+        const transitionName = ref('carousel-slide-right');
 
-        const transitionName = 'carousel-slide-right';
+        watch(currentSlide, (newValue, oldValue) => {
+            if(newValue < oldValue) {
+                transitionName.value = 'carousel-slide-left';
+            } else if(newValue > oldValue) {
+                transitionName.value = 'carousel-slide-right';
+            }
+        });
 
         return {
             transitionName

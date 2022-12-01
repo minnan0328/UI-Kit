@@ -9,8 +9,8 @@
     </div>
 </template>
 <script>
-import { ref, reactive, computed, watch } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
+import { reactive, computed } from 'vue';
+import { useRoute } from 'vue-router';
 import url from '@/router/url';
 
 
@@ -18,7 +18,7 @@ export default {
     setup() {
         const route = useRoute();
 
-        const menus = reactive([ url.home, url.dialog, url.carousel ]);
+        const menus = reactive([ url.home, url.dialog ]);
 
         const currentMenu = computed(() => route.name);
 

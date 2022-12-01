@@ -1,6 +1,6 @@
 <template>
     <carousel v-slot:default="{ currentSlide }">
-        <slide v-for="(option ,idx) of options" :key="idx" v-show="(idx ===currentSlide)" >
+        <slide v-for="(option ,idx) of options" :key="idx" v-show="(idx ===currentSlide)">
             <img :src="option.media" :alt="option.mediaText" />
         </slide>
     </carousel>
