@@ -26,7 +26,7 @@ export default {
         },
         timeDetention: {
             type: Number,
-            default: 5000
+            default: 1000
         },
         navigationEnabled: {
             type: Boolean,
@@ -43,6 +43,7 @@ export default {
         const slideAmount = ref(0);
         const currentSlide = ref(0);
         const interval = ref(null);
+        const navigationType = ref('next');
 
         const navigationEnabled = computed(() => props.navigationEnabled ? props.navigationEnabled : true);
         const paginationEnabled = computed(() => props.paginationEnabled ? props.paginationEnabled : true);
@@ -53,6 +54,7 @@ export default {
                 return;
             };
 
+            navigationType.value = 'prev';
             currentSlide.value -= 1;
         };
 
@@ -62,6 +64,7 @@ export default {
                 return;
             };
 
+            navigationType.value = 'next';
             currentSlide.value += 1;
         };
 
@@ -74,6 +77,7 @@ export default {
             if(props.autoPlay) {
                 interval.value = setInterval(() => {
                     nextSlide();
+                    navigationType.value = null;
                 }, props.timeDetention);
             };
         }
@@ -81,8 +85,6 @@ export default {
         const pauseAutoPlay = () => {
             clearInterval(interval.value);
         };
-
-        provide('carousel', { currentSlide });
 
         onMounted(() => {
             slideElement.value = document.querySelectorAll('.slide');
@@ -92,6 +94,8 @@ export default {
                 enabledAutoPlay();
             };
         });
+
+        provide('carousel', { currentSlide, navigationType });
 
         return {
             currentSlide, slideAmount,

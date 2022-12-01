@@ -12,20 +12,23 @@ import { ref, watch, inject  } from 'vue';
 export default {
     setup() {
         
-        const { currentSlide } = inject('carousel');
         const transitionName = ref('carousel-slide-right');
+        const { currentSlide, navigationType } = inject('carousel');
 
-        watch(currentSlide, (newValue, oldValue) => {
-            if(newValue < oldValue) {
-                transitionName.value = 'carousel-slide-left';
-            } else if(newValue > oldValue) {
+        watch([currentSlide, navigationType], ([newValue, newType], [oldValue, oldType]) => {
+            console.log(newValue, oldValue, newType, oldType);
+            if(newType === 'next') {
                 transitionName.value = 'carousel-slide-right';
-            }
+            } else if(newType === 'prev') {
+                transitionName.value = 'carousel-slide-left';
+            } else {
+                transitionName.value = 'carousel-slide-right';
+            };
         });
 
         return {
             transitionName
-        }
+        };
     }
 }
 </script>

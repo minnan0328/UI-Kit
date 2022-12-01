@@ -1,6 +1,7 @@
 {
   "name": "vue-ui-kit",
   "version": "0.0.0",
+  "homepage": "https://minnan0328..github.io/Vue-UI-Kit",
   "scripts": {
     "dev": "cross-env type=dev vite",
     "build:lab": "cross-env type=lab vite build",
