@@ -12,26 +12,7 @@ import { ref, watch, inject  } from 'vue';
 export default {
     setup() {
         
-        const transitionName = ref('carousel-slide-right');
-        const { currentSlide, slideAmount } = inject('carousel');
-
-        watch(currentSlide, (newValue, oldValue) => {
-            // if(oldValue < 0) {
-            //     transitionName.value = 'carousel-slide-right';
-            // } else if(oldValue > slideAmount.length -1) {
-            //     transitionName.value = 'carousel-slide-left';
-            // } else {
-            //     transitionName.value = newValue > oldValue ? 'carousel-slide-right' : 'carousel-slide-left';
-            // }
-            transitionName.value = oldValue < 0
-                ? 'carousel-slide-right'
-                : oldValue > slideAmount.length -1
-                ? 'carousel-slide-left'
-                : newValue > oldValue
-                ? 'carousel-slide-right'
-                : 'carousel-slide-left';
-
-        });
+        const { currentSlide, slideAmount, transitionName } = inject('carousel');
 
         return {
             transitionName
@@ -64,6 +45,4 @@ export default {
     .carousel-slide-left-enter-from {
         left: -100%;
     }
-
-    
 </style>
