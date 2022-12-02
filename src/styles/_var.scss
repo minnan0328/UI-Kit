@@ -1,3 +1,6 @@
+$md: 768px;
+$xl: 1200px;
+
 $font-size-32: 2rem;
 $font-size-24: 1.5rem;
 $font-size-20: 1.25rem;
@@ -19,3 +22,34 @@ $light-gray:           #c6c6c6;
 $light-silver:         #d8d8d8;
 $white-smoke:          #ececec;
 $white-lynx:           #fafafa;
+
+
+@mixin phone {
+    @media (max-width: $md - 1) {
+        @content;
+    }
+}
+
+@mixin pad {
+    @media (min-width: $md) and (max-width: $xl - 1) {
+        @content;
+    }
+}
+
+@mixin pad-down {
+    @media (max-width: $xl - 1) {
+        @content;
+    }
+}
+
+@mixin pad-up {
+    @media (min-width: $md) {
+        @content;
+    }
+}
+
+@mixin pc {
+    @media (min-width: $xl) {
+        @content;
+    }
+}

@@ -1,6 +1,6 @@
 <template>
     <transition :name="transitionName">
-        <div class="slide">
+        <div class="slide" ref="slide">
             <slot></slot>
         </div>
     </transition>
@@ -20,15 +20,15 @@ export default {
     setup() {
         
         const { currentSlide, slideAmount, transitionName, isTransitionend } = inject('carousel');
-        const slideElement = ref(null);
+        const slide = ref(null);
         const transitionEvent = ref(null);
 
         const currentTransitionsType = (el) => {
             for(let t in transitionsType) {
                 if( el.style[t] !== undefined ){
                     return transitionsType[t];
-                }
-            }
+                };
+            };
         };
 
         const toggleActive = () => {
@@ -36,19 +36,16 @@ export default {
         };
 
         onMounted(() => {
-            slideElement.value = document.querySelectorAll('.slide');
-
-            transitionEvent.value = currentTransitionsType(slideElement.value[0]);
-
-            slideElement.value.forEach(slide => slide.addEventListener(transitionEvent.value, toggleActive));
+            transitionEvent.value = currentTransitionsType(slide.value);
+            slide.value.addEventListener(transitionEvent.value, toggleActive);
         });
 
         onUnmounted(() => {
-            slideElement.value.forEach(slide => slide.removeEventListener(transitionEvent.value, toggleActive));
+            slide.value.removeEventListener(transitionEvent.value, toggleActive);
         });
 
 
-        return { transitionName };
+        return { slide, transitionName };
     }
 }
 </script>

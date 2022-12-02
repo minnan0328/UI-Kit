@@ -20,6 +20,13 @@ export default {
 
 @import '@/styles/_var';
     .full-carousel {
-        height: 800px;
+        min-height: 400px;
+        height: 100%;
+    }
+
+    @include phone {
+        .full-carousel {
+            min-height: 200px;
+        }
     }
 </style>

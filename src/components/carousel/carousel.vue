@@ -3,8 +3,8 @@
         <slot :currentSlide="currentSlide"></slot>
 
         <div class="navigation" v-if="navigationEnabled">
-            <button class="btn-icon btn-media icon-arrow-left" @click="prevSlide()" @mouseover="pauseAutoPlay" @mouseout="enabledAutoPlay"></button>
-            <button class="btn-icon btn-media icon-arrow-right" @click="nextSlide()" @mouseover="pauseAutoPlay" @mouseout="enabledAutoPlay"></button>
+            <button class="btn-icon btn-navigation icon-arrow-left" @click="prevSlide()" @mouseover="pauseAutoPlay" @mouseout="enabledAutoPlay"></button>
+            <button class="btn-icon btn-navigation icon-arrow-right" @click="nextSlide()" @mouseover="pauseAutoPlay" @mouseout="enabledAutoPlay"></button>
         </div>
 
         <div class="pagination" v-if="paginationEnabled">
@@ -51,17 +51,19 @@ export default {
         const paginationEnabled = computed(() => props.paginationEnabled ? props.paginationEnabled : true);
 
         const prevSlide = () => {
-            if(isTransitionend.value) {
-                currentSlide.value -= 1;
-                isTransitionend.value = false;
-            };
+            currentSlide.value -= 1;
+            // if(isTransitionend.value) {
+            //     currentSlide.value -= 1;
+            //     isTransitionend.value = false;
+            // };
         };
 
         const nextSlide = () => {
-            if(isTransitionend.value) {
-                currentSlide.value += 1;
-                isTransitionend.value = false;
-            };
+            currentSlide.value += 1;
+            // if(isTransitionend.value) {
+            //     currentSlide.value += 1;
+            //     isTransitionend.value = false;
+            // };
         };
 
         const changeSlide = (count) => {
@@ -108,7 +110,7 @@ export default {
         provide('carousel', { currentSlide, slideAmount, transitionName, isTransitionend });
 
         return {
-            currentSlide, slideAmount,
+            currentSlide, slideAmount, isTransitionend,
             navigationEnabled, paginationEnabled,
             prevSlide, nextSlide, changeSlide, enabledAutoPlay, pauseAutoPlay
         };
