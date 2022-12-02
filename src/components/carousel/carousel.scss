@@ -5,14 +5,13 @@
     width: 100vw;
     height: 100vh;
 
-
     &::v-deep(.slide) {
         position: absolute;
-        height: 100vh;
+        height: inherit;
 
         img {
             width: 100vw;
-            height: 100vh;
+            height: inherit;
             object-fit: cover;
         }
     }
@@ -60,19 +59,26 @@
         width: 100%;
         bottom: 32px;
 
-
         .btn-pagination {
-            width: 16px;
-            height: 16px;
-            background-color: rgba($white, .3);
+            width: 8px;
+            height: 8px;
+            border: 1px solid $white;
             border-radius: 50px;
+            transition: all 0.5s ease-in-out;
 
             &:not(:last-child) {
                 margin-right: 16px;
             }
 
-            &.active {
+            &:hover {
+                border-color: $emerald;
                 background-color: $emerald;
+            }
+
+            &.active {
+                width: 32px;
+                background-color: $emerald;
+                border-color: $emerald;
             }
         }
     }

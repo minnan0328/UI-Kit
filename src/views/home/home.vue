@@ -12,14 +12,14 @@ export default {
     setup() {
         const urlPath = ref(url);
 
-
         return { urlPath };
     }
 }
 </script>
 <style lang="scss" scoped>
+
+@import '@/styles/_var';
     .full-carousel {
-        position: absolute;
-        top: 0;
+        height: 800px;
     }
 </style>

@@ -7,16 +7,48 @@
 </template>
 
 <script>
-import { ref, watch, inject  } from 'vue';
+import { ref, watch, onMounted, onUnmounted, inject  } from 'vue';
+
+let transitionsType = {
+    transition: 'transitionend',
+    OTransition: 'oTransitionEnd',
+    MozTransition: 'transitionend',
+    WebkitTransition: 'webkitTransitionEnd'
+};
 
 export default {
     setup() {
         
-        const { currentSlide, slideAmount, transitionName } = inject('carousel');
+        const { currentSlide, slideAmount, transitionName, isTransitionend } = inject('carousel');
+        const slideElement = ref(null);
+        const transitionEvent = ref(null);
 
-        return {
-            transitionName
+        const currentTransitionsType = (el) => {
+            for(let t in transitionsType) {
+                if( el.style[t] !== undefined ){
+                    return transitionsType[t];
+                }
+            }
         };
+
+        const toggleActive = () => {
+            isTransitionend.value = true;
+        };
+
+        onMounted(() => {
+            slideElement.value = document.querySelectorAll('.slide');
+
+            transitionEvent.value = currentTransitionsType(slideElement.value[0]);
+
+            slideElement.value.forEach(slide => slide.addEventListener(transitionEvent.value, toggleActive));
+        });
+
+        onUnmounted(() => {
+            slideElement.value.forEach(slide => slide.removeEventListener(transitionEvent.value, toggleActive));
+        });
+
+
+        return { transitionName };
     }
 }
 </script>
@@ -31,7 +63,7 @@ export default {
     .carousel-slide-right-leave-active,
     .carousel-slide-left-enter-active,
     .carousel-slide-left-leave-active  {
-        transition: left 0.5s;
+        transition: left 0.5s ease-in-out;
     }
 
     .carousel-slide-right-enter-to,

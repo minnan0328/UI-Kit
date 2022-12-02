@@ -17,7 +17,7 @@
 </template>
 <script>
 
-import { ref, computed, watch, onMounted, provide } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted, provide } from 'vue';
 
 export default {
     props: {
@@ -45,27 +45,23 @@ export default {
         const currentSlide = ref(0);
         const interval = ref(null);
         const transitionName = ref('carousel-slide-right');
-
+        const isTransitionend = ref(true);
 
         const navigationEnabled = computed(() => props.navigationEnabled ? props.navigationEnabled : true);
         const paginationEnabled = computed(() => props.paginationEnabled ? props.paginationEnabled : true);
 
         const prevSlide = () => {
-            // if(currentSlide.value == 0) {
-            //     currentSlide.value = slideAmount.value -1;
-            //     return;
-            // };
-
-            currentSlide.value -= 1;
+            if(isTransitionend.value) {
+                currentSlide.value -= 1;
+                isTransitionend.value = false;
+            };
         };
 
         const nextSlide = () => {
-            // if(currentSlide.value == slideAmount.value - 1) {
-            //     currentSlide.value = 0;
-            //     return;
-            // };
-
-            currentSlide.value += 1;
+            if(isTransitionend.value) {
+                currentSlide.value += 1;
+                isTransitionend.value = false;
+            };
         };
 
         const changeSlide = (count) => {
@@ -91,14 +87,13 @@ export default {
                 currentSlide.value = 0;
             } else {
                 transitionName.value = oldValue < 0
-                        ? 'carousel-slide-left'
-                        : oldValue > slideAmount.value - 1
-                        ? 'carousel-slide-right'
-                        : newValue > oldValue
-                        ? 'carousel-slide-right'
-                        : 'carousel-slide-left';
+                    ? 'carousel-slide-left'
+                    : oldValue > slideAmount.value - 1
+                    ? 'carousel-slide-right'
+                    : newValue > oldValue
+                    ? 'carousel-slide-right'
+                    : 'carousel-slide-left';
             };
-            
         });
 
         onMounted(() => {
@@ -110,7 +105,7 @@ export default {
             };
         });
 
-        provide('carousel', { currentSlide, slideAmount, transitionName });
+        provide('carousel', { currentSlide, slideAmount, transitionName, isTransitionend });
 
         return {
             currentSlide, slideAmount,
