@@ -1,5 +1,7 @@
 <template>
-    <fullCarousel class="full-carousel"></fullCarousel>
+    <div  class="full-carousel">
+        <fullCarousel></fullCarousel>
+    </div>
 </template>
 <script>
 import { ref } from 'vue';
@@ -20,13 +22,12 @@ export default {
 
 @import '@/styles/_var';
     .full-carousel {
-        min-height: 400px;
-        height: 100%;
+        max-height: 400px;
     }
 
     @include phone {
         .full-carousel {
-            min-height: 200px;
+            max-height: 200px;
         }
     }
 </style>

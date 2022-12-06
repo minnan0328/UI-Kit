@@ -18,7 +18,7 @@ export default {
     setup() {
         const route = useRoute();
 
-        const menus = reactive([ url.home, url.dialog ]);
+        const menus = reactive([ url.home, url.dialog, url.carousel ]);
 
         const currentMenu = computed(() => route.name);
 
