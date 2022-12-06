@@ -1,6 +1,6 @@
 import { ref, watch, onMounted  } from 'vue';
 
-export function useSlide ({ autoPlay, timeDetention }) {
+export function useSlide ({ autoPlay, timeDetention, carousels }) {
 
     const slideElement = ref(null);
     const slideAmount = ref(0);
@@ -66,7 +66,8 @@ export function useSlide ({ autoPlay, timeDetention }) {
     });
 
     onMounted(() => {
-        slideElement.value = document.querySelectorAll('.slide');
+
+        slideElement.value = [...carousels.value.children].filter(carousel => carousel.className === 'slide');
         slideAmount.value = slideElement.value.length;
 
         /*  判斷是否啟用自動播放 */

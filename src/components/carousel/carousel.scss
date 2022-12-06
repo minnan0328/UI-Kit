@@ -2,36 +2,46 @@
 .carousel {
     position: relative;
     overflow: hidden;
-    width: 100vw;
-    height: 100vh;
 
+    width: 100vw;
+    min-width: inherit;
+    max-width: inherit;
+    height: 100vh;
+    min-height: inherit;
+    max-height: inherit;
+    
+    
     &::v-deep(.slide) {
         position: absolute;
+        width: inherit;
+        min-width: inherit;
+        max-width: inherit;
         height: inherit;
+        min-height: inherit;
+        max-height: inherit; 
 
-        img {
-            width: 100vw;
+        img, video {
+            width: inherit;
+            min-width: inherit;
+            max-width: inherit;
             height: inherit;
+            min-height: inherit;
+            max-height: inherit;     
             object-fit: cover;
             object-position: center;
         }
     }
 
     .navigation {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: inherit;
-        height: inherit;
-
         .btn-navigation {
+            position: absolute;
             color: $white;
             max-width: 48px;
             max-height: 48px;
             font-size: 48px;
             border-radius: 50%;
             background-color: rgba($white, 0.3);
+            top: 50%;
 
             @media (hover: hover) and (pointer: fine) {
                 /* touch browsers 不觸發 hover css style */
@@ -41,18 +51,19 @@
             }
 
             &.icon-arrow-left {
-                flex: 1;
-                display: flex;
-                justify-content: flex-start;
-                margin-left: 32px;
+                top: 50%;
+                left: 32px;
             }
 
             &.icon-arrow-right {
-                flex: 1;
-                display: flex;
-                justify-content: flex-end;
-                margin-right: 32px;
+                right: 32px;
             }
+        }
+
+        &.nav-small .btn-navigation {
+            max-width: 24px;
+            max-height: 24px;
+            font-size: 24px;
         }
     }
 
@@ -62,6 +73,7 @@
         justify-content: center;
         width: 100%;
         bottom: 32px;
+        z-index: 1;
 
         .btn-pagination {
             width: 8px;
