@@ -7,16 +7,18 @@
         </carousel>
     </div>
 
+    <p>不啟用自動輪播</p>
     <div class="images small-images">
-        <carousel v-slot:default="{ currentSlide }" :navigationBtnSmall="true">
+        <carousel v-slot:default="{ currentSlide }" :autoPlay="false" :navigationBtnSmall="true">
             <slide v-for="(image ,idx) of images" :key="idx" v-show="(idx === currentSlide)">
                 <img :src="image.media" :alt="image.mediaText" />
             </slide>
         </carousel>
     </div>
-
+    
+    <p>影片</p>
     <div class="videos small-video">
-        <carousel v-slot:default="{ currentSlide }" :autoPlay="false">
+        <carousel v-slot:default="{ currentSlide }">
             <slide v-for="(video ,idx) of videos" :key="idx" v-show="(idx === currentSlide)">
                 <a :href="video.url" target="_blank">
                     <video :src="video.media" :alt="video.mediaText" muted autoplay loop></video>
@@ -56,7 +58,7 @@ export default {
     @import '@/styles/_var';
 
     .images, .videos {
-        margin-bottom: 32px;
+        padding: 16px 0 32px;
     }
 
     .full-images {
