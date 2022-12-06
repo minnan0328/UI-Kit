@@ -4,46 +4,23 @@
             <slot></slot>
         </div>
     </transition>
+
 </template>
 
 <script>
-import { ref, watch, onMounted, onUnmounted, inject  } from 'vue';
-
-let transitionsType = {
-    transition: 'transitionend',
-    OTransition: 'oTransitionEnd',
-    MozTransition: 'transitionend',
-    WebkitTransition: 'webkitTransitionEnd'
-};
+import { ref, onMounted, inject  } from 'vue';
 
 export default {
+    name: "slide",
     setup() {
         
-        const { currentSlide, slideAmount, transitionName, isTransitionend } = inject('carousel');
+        const { toggleActive, transitionName } = inject('carousel');
         const slide = ref(null);
-        const transitionEvent = ref(null);
-
-        const currentTransitionsType = (el) => {
-            for(let t in transitionsType) {
-                if( el.style[t] !== undefined ){
-                    return transitionsType[t];
-                };
-            };
-        };
-
-        const toggleActive = () => {
-            isTransitionend.value = true;
-        };
 
         onMounted(() => {
-            transitionEvent.value = currentTransitionsType(slide.value);
-            slide.value.addEventListener(transitionEvent.value, toggleActive);
+            slide.value.ontransitionend = () => toggleActive();
+            slide.value.ontransitioncancel = () => toggleActive();
         });
-
-        onUnmounted(() => {
-            slide.value.removeEventListener(transitionEvent.value, toggleActive);
-        });
-
 
         return { slide, transitionName };
     }

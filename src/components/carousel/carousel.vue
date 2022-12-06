@@ -3,36 +3,49 @@
         <slot :currentSlide="currentSlide"></slot>
 
         <div class="navigation" v-if="navigationEnabled">
-            <button class="btn-icon btn-navigation icon-arrow-left" @click="prevSlide()" @mouseover="pauseAutoPlay" @mouseout="enabledAutoPlay"></button>
-            <button class="btn-icon btn-navigation icon-arrow-right" @click="nextSlide()" @mouseover="pauseAutoPlay" @mouseout="enabledAutoPlay"></button>
+            <button class="btn-icon btn-navigation icon-arrow-left" @click="prevSlide()"
+                    @mouseover="pauseAutoPlay" @mouseout="enabledAutoPlay"
+                    @touchstart="pauseAutoPlay" @touchend="enabledAutoPlay">
+            </button>
+            <button class="btn-icon btn-navigation icon-arrow-right" @click="nextSlide()"
+                    @mouseover="pauseAutoPlay" @mouseout="enabledAutoPlay"
+                    @touchstart="pauseAutoPlay" @touchend="enabledAutoPlay">
+            </button>
         </div>
 
         <div class="pagination" v-if="paginationEnabled">
             <button :class="['btn-icon btn-pagination', { 'active': currentSlide == idx }]"
                     v-for="(slideBtn, idx) of slideAmount" :key="idx" @click="changeSlide(idx)"
-                    @mouseover="pauseAutoPlay" @mouseout="enabledAutoPlay">
+                    @mouseover="pauseAutoPlay" @mouseout="enabledAutoPlay"
+                    @touchstart="pauseAutoPlay" @touchend="enabledAutoPlay">
             </button>
         </div>
     </div>
 </template>
 <script>
 
-import { ref, computed, watch, onMounted, onUnmounted, provide } from 'vue';
+import { computed, provide } from 'vue';
+import { useSlide } from '@/components/carousel/hooks/sliding-hook.js';
 
 export default {
+    name: 'carousel',
     props: {
+        /* 自動播放 */
         autoPlay: {
             type: Boolean,
             default: true
         },
+        /* 動畫過渡時間，單位豪秒 */
         timeDetention: {
             type: Number,
             default: 5000
         },
+        /* 左右箭頭啟用或停用 */
         navigationEnabled: {
             type: Boolean,
             default: true
         },
+        /* 分頁功能啟用或停用 */
         paginationEnabled: {
             type: Boolean,
             default: true
@@ -40,74 +53,17 @@ export default {
     },
     setup(props) {
 
-        const slideElement = ref(null);
-        const slideAmount = ref(0);
-        const currentSlide = ref(0);
-        const interval = ref(null);
-        const transitionName = ref('carousel-slide-right');
-        const isTransitionend = ref(true);
-
+        /* 取得自訂左右箭頭啟用或停用，當無自訂時預設為啟用 */
         const navigationEnabled = computed(() => props.navigationEnabled ? props.navigationEnabled : true);
+        /* 取得自訂分頁功能啟用或停用，當無自訂時預設為啟用 */
         const paginationEnabled = computed(() => props.paginationEnabled ? props.paginationEnabled : true);
 
-        const prevSlide = () => {
-            currentSlide.value -= 1;
-            // if(isTransitionend.value) {
-            //     currentSlide.value -= 1;
-            //     isTransitionend.value = false;
-            // };
-        };
+        const {
+            currentSlide, slideAmount, transitionName, isTransitionend,
+            prevSlide, nextSlide, changeSlide, enabledAutoPlay, pauseAutoPlay, toggleActive
+        } = useSlide(props);
 
-        const nextSlide = () => {
-            currentSlide.value += 1;
-            // if(isTransitionend.value) {
-            //     currentSlide.value += 1;
-            //     isTransitionend.value = false;
-            // };
-        };
-
-        const changeSlide = (count) => {
-            currentSlide.value = count;
-        };
-
-        const enabledAutoPlay = () => {
-            if(props.autoPlay) {
-                interval.value = setInterval(() => {
-                    nextSlide();
-                }, props.timeDetention);
-            };
-        }
-
-        const pauseAutoPlay = () => {
-            clearInterval(interval.value);
-        };
-
-        watch(currentSlide, (newValue, oldValue) => {
-            if(newValue < 0) {
-                currentSlide.value = slideAmount.value - 1;
-            } else if(newValue > slideAmount.value - 1) {
-                currentSlide.value = 0;
-            } else {
-                transitionName.value = oldValue < 0
-                    ? 'carousel-slide-left'
-                    : oldValue > slideAmount.value - 1
-                    ? 'carousel-slide-right'
-                    : newValue > oldValue
-                    ? 'carousel-slide-right'
-                    : 'carousel-slide-left';
-            };
-        });
-
-        onMounted(() => {
-            slideElement.value = document.querySelectorAll('.slide');
-            slideAmount.value = slideElement.value.length;
-
-            if(props.autoPlay) {
-                enabledAutoPlay();
-            };
-        });
-
-        provide('carousel', { currentSlide, slideAmount, transitionName, isTransitionend });
+        provide('carousel', { toggleActive, transitionName });
 
         return {
             currentSlide, slideAmount, isTransitionend,
