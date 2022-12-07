@@ -21,7 +21,7 @@
         <carousel v-slot:default="{ currentSlide }">
             <slide v-for="(video ,idx) of videos" :key="idx" v-show="(idx === currentSlide)">
                 <a :href="video.url" target="_blank">
-                    <video :src="video.media" :alt="video.mediaText" muted autoplay loop></video>
+                    <video :src="video.media" :alt="video.mediaText" muted autoplay loop playsInline></video>
                 </a>
             </slide>
         </carousel>
@@ -62,25 +62,26 @@ export default {
     }
 
     .full-images {
-        max-height: 400px;
+        height: 400px;
     }
     .small-images {
-        max-height: 200px;
-        max-width: 200px;
+        height: 200px;
+        width: 200px;
     }
+
     .small-video {
-        max-width: 720px;
-        max-height: 480px;
+        height: 100vh;
+        width: 100vw;
     }
 
     @include phone {
 
         .full-images {
-            max-height: 200px;
+            height: 200px;
         }
         .small-images {
-            max-height: 200px;
-            max-width: 320px;
+            height: 200px;
+            width: 320px;
         }
     }
 </style>

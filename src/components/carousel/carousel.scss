@@ -2,14 +2,13 @@
 .carousel {
     position: relative;
     overflow: hidden;
-
-    width: 100vw;
+    width: 100%;
     min-width: inherit;
     max-width: inherit;
-    height: 100vh;
+    height: 100%;
     min-height: inherit;
     max-height: inherit;
-    
+
     
     &::v-deep(.slide) {
         position: absolute;

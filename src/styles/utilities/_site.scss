@@ -10,6 +10,14 @@ body {
     border: 0;
 }
 
+* {
+    margin: 0;
+    padding: 0;
+    outline: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
 [class*='icon-'] {
     font-size: $font-size-20;
     line-height: 1;
@@ -24,10 +32,4 @@ a {
         color: $emerald;
         text-decoration: none;
     }
-}
-
-p {
-    margin: 0;
-    padding: 0;
-    outline: 0;
 }
