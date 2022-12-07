@@ -1,5 +1,8 @@
 <template>
-    <div class="carousel" ref="carousels">
+    <div class="carousel" ref="carousels"
+        :style="{ '--customWidth': customWidth ? `${customWidth}px` : `100vw`,
+                  '--customHeight': customHeight ? `${customHeight}px` : `100vh`
+                }">
         <slot :currentSlide="currentSlide"></slot>
 
         <div :class="['navigation', { 'nav-small': navigationBtnSmall }]" v-if="navigationEnabled">
@@ -54,6 +57,14 @@ export default {
         navigationBtnSmall: {
             type: Boolean,
             default: false
+        },
+        customWidth: {
+            type: Number,
+            default: null
+        },
+        customHeight: {
+            type: Number,
+            default: null
         }
     },
     setup(props) {

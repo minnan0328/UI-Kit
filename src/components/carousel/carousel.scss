@@ -2,10 +2,10 @@
 .carousel {
     position: relative;
     overflow: hidden;
-    width: 100%;
+    width: var(--customWidth);
     min-width: inherit;
     max-width: inherit;
-    height: 100%;
+    height: var(--customHeight);
     min-height: inherit;
     max-height: inherit;
 

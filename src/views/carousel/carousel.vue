@@ -1,6 +1,6 @@
 <template>
     <div class="images full-images">
-        <carousel v-slot:default="{ currentSlide }">
+        <carousel v-slot:default="{ currentSlide }" :customHeight="400">
             <slide v-for="(image ,idx) of images" :key="idx" v-show="(idx === currentSlide)">
                 <img :src="image.media" :alt="image.mediaText" />
             </slide>
@@ -9,7 +9,7 @@
 
     <p>不啟用自動輪播</p>
     <div class="images small-images">
-        <carousel v-slot:default="{ currentSlide }" :autoPlay="false" :navigationBtnSmall="true">
+        <carousel v-slot:default="{ currentSlide }" :autoPlay="false" :navigationBtnSmall="true" :customHeight="200" :customWidth="200">
             <slide v-for="(image ,idx) of images" :key="idx" v-show="(idx === currentSlide)">
                 <img :src="image.media" :alt="image.mediaText" />
             </slide>
@@ -61,27 +61,4 @@ export default {
         padding: 16px 0 32px;
     }
 
-    .full-images {
-        height: 400px;
-    }
-    .small-images {
-        height: 200px;
-        width: 200px;
-    }
-
-    .small-video {
-        height: 100vh;
-        width: 100vw;
-    }
-
-    @include phone {
-
-        .full-images {
-            height: 200px;
-        }
-        .small-images {
-            height: 200px;
-            width: 320px;
-        }
-    }
 </style>
