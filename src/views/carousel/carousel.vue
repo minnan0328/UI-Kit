@@ -26,14 +26,24 @@
             </slide>
         </carousel>
     </div>
+
+    <div class="images small-images">
+        <smoothCarousel :autoPlay="false" :navigationBtnSmall="true">
+            <slide v-for="(image ,idx) of images" :key="idx" >
+                <img :src="image.media" :alt="image.mediaText" />
+            </slide>
+        </smoothCarousel>
+    </div>
+
 </template>
 <script>
 import { reactive  } from 'vue';
 import carousel from '@/components/carousel/carousel.vue';
+import smoothCarousel from '@/components/smooth-carousel/smooth-carousel.vue';
 import slide from '@/components/slide/slide.vue';
 
 export default {
-    components: { carousel, slide },
+    components: { carousel, smoothCarousel, slide },
     setup() {
         const images = reactive([
             { url: '', media: new URL('@/assets/images/full-images/annie-spratt-S7viz8JWxwY-unsplash.jpg', import.meta.url).href, mediaText: 'annie' },
