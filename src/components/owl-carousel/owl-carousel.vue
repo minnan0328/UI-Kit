@@ -1,5 +1,5 @@
 <template>
-    <div class="carousel" ref="carousels"
+    <div class="owl-carousel" ref="owlCarousels"
         :style="{ '--customItemWidth': customItemWidth ? `${customItemWidth}px` : `100vw`,
                   '--customItemHeight': customItemHeight ? `${customItemHeight}px` : `100vh`
                 }">
@@ -36,10 +36,10 @@
 <script>
 
 import { ref, reactive, computed, onMounted, provide } from 'vue';
-import { useSlide } from '@/components/smooth-carousel/hooks/sliding-hook.js';
+import { useSlide } from '@/components/owl-carousel/hooks/sliding-hook.js';
 
 export default {
-    name: 'smooth-carousel',
+    name: 'owl-carousel',
     props: {
         /* 自動播放 */
         autoPlay: {
@@ -77,13 +77,8 @@ export default {
     },
     setup(props) {
 
-        const carousels = ref(null);
+        const owlCarousels = ref(null);
         const carouselsInner = ref(null);
-        const carouselState = reactive({
-            isPressed: false,
-            startX: 0,
-            carouselLeft: '0px'
-        });
 
         /* 取得自訂左右箭頭啟用或停用，當無自訂時預設為啟用 */
         const navigationEnabled = computed(() => props.navigationEnabled ? props.navigationEnabled : true);
@@ -91,58 +86,18 @@ export default {
         const paginationEnabled = computed(() => props.paginationEnabled ? props.paginationEnabled : true);
 
         const {
-            currentSlide, slideAmount, transitionName, isTransitionend,
-            prevSlide, nextSlide, changeSlide, enabledAutoPlay, pauseAutoPlay, toggleActive
-        } = useSlide({...props, carouselsInner});
+            currentSlide, slideAmount, isTransitionend, carouselState,
+            prevSlide, nextSlide, changeSlide, enabledAutoPlay, pauseAutoPlay, toggleActive,
+            handleMouseDown, handleMouseMove ,handleMouseLeave, handleMouseUp
+        } = useSlide({props, carouselsInner});
 
-        const handleMouseDown = (e) => {
-            carouselState.isPressed = true;
-            carouselState.startX = e.pageX - carouselsInner.value.offsetLeft;
-        };
-
-        const handleMouseMove = (e) => {
-            if(!carouselState.isPressed) {
-                return
-            };
-            
-            e.preventDefault();
-
-            const currentPageX = e.pageX;
-            carouselState.carouselLeft = `${currentPageX - carouselState.startX}px`;
-            
-            checkBoundary();
-
-        };
-
-        const handleMouseLeave = (e) => {
-            carouselState.isPressed = false;
-        };
-
-        const handleMouseUp = (e) => {
-            carouselState.isPressed = false;
-        };
-
-        const checkBoundary = () => {
-            let outer = carousels.value.getBoundingClientRect();
-            let inner = carouselsInner.value.getBoundingClientRect();
-
-            if (outer.left < inner.left) {
-                carouselState.isPressed = false;
-                carouselState.carouselLeft = '0px';
-            };
-
-            if (inner.right < outer.right) {
-                carouselState.isPressed = false;
-                carouselState.carouselLeft = `-${inner.width - outer.width}px`;
-            };
-
-            return carouselState.isPressed;
-        }
-
-        provide('carousel', { toggleActive, transitionName });
+        onMounted(() => {
+            carouselsInner.value.ontransitionend = () => toggleActive();
+            carouselsInner.value.ontransitioncancel = () => toggleActive();
+        });
 
         return {
-            carousels, carouselsInner, carouselState, currentSlide, slideAmount, isTransitionend,
+            owlCarousels, carouselsInner, carouselState, currentSlide, slideAmount, isTransitionend,
             navigationEnabled, paginationEnabled,
             handleMouseDown, handleMouseLeave, handleMouseUp, handleMouseMove,
             prevSlide, nextSlide, changeSlide, enabledAutoPlay, pauseAutoPlay
@@ -150,4 +105,4 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped src="./smooth-carousel.scss"></style>
+<style lang="scss" scoped src="./owl-carousel.scss"></style>

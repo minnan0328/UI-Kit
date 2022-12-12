@@ -1,5 +1,14 @@
 <template>
-    <div class="images full-images">
+
+    <div class="images">
+        <owlCarousel :autoPlay="false" :customItemHeight="400">
+            <owlSlide v-for="(image ,idx) of images" :key="idx" >
+                <img :src="image.media" :alt="image.mediaText" />
+            </owlSlide>
+        </owlCarousel>
+    </div>
+
+    <div class="images">
         <carousel v-slot:default="{ currentSlide }" :customHeight="400">
             <slide v-for="(image ,idx) of images" :key="idx" v-show="(idx === currentSlide)">
                 <img :src="image.media" :alt="image.mediaText" />
@@ -8,7 +17,7 @@
     </div>
 
     <p>不啟用自動輪播</p>
-    <div class="images small-images">
+    <div class="images">
         <carousel v-slot:default="{ currentSlide }" :autoPlay="false" :navigationBtnSmall="true" :customHeight="200" :customWidth="200">
             <slide v-for="(image ,idx) of images" :key="idx" v-show="(idx === currentSlide)">
                 <img :src="image.media" :alt="image.mediaText" />
@@ -17,7 +26,7 @@
     </div>
     
     <p>影片</p>
-    <div class="videos small-video">
+    <div class="videos">
         <carousel v-slot:default="{ currentSlide }">
             <slide v-for="(video ,idx) of videos" :key="idx" v-show="(idx === currentSlide)">
                 <a :href="video.url" target="_blank">
@@ -27,23 +36,16 @@
         </carousel>
     </div>
 
-    <div class="images small-images">
-        <smoothCarousel :autoPlay="false" :navigationBtnSmall="true">
-            <slide v-for="(image ,idx) of images" :key="idx" >
-                <img :src="image.media" :alt="image.mediaText" />
-            </slide>
-        </smoothCarousel>
-    </div>
-
 </template>
 <script>
 import { reactive  } from 'vue';
 import carousel from '@/components/carousel/carousel.vue';
-import smoothCarousel from '@/components/smooth-carousel/smooth-carousel.vue';
+import owlCarousel from '@/components/owl-carousel/owl-carousel.vue';
 import slide from '@/components/slide/slide.vue';
+import owlSlide from '@/components/slide/owl-slide.vue';
 
 export default {
-    components: { carousel, smoothCarousel, slide },
+    components: { carousel, owlCarousel, slide, owlSlide },
     setup() {
         const images = reactive([
             { url: '', media: new URL('@/assets/images/full-images/annie-spratt-S7viz8JWxwY-unsplash.jpg', import.meta.url).href, mediaText: 'annie' },
