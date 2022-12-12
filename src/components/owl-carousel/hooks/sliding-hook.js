@@ -6,9 +6,7 @@ export function useSlide ({ props, carouselsInner }) {
     const slideAmount = ref(0);
     const currentSlide = ref(0);
     const interval = ref(null);
-    const transitionName = ref('carousel-slide-right');
     const isTransitionend = ref(true);
-    const currentChildren = ref(null);
 
     const carouselState = reactive({
         isPressed: false,
@@ -73,7 +71,6 @@ export function useSlide ({ props, carouselsInner }) {
     const handleMouseDown = (e) => {
         carouselState.isPressed = true;
         carouselState.startX = e.pageX;
-        carouselState
         carouselState.pageX = e.pageX - carouselsInner.value.offsetLeft;
         carouselState.offsetWidth = carouselsInner.value.offsetWidth;
     };
@@ -128,7 +125,7 @@ export function useSlide ({ props, carouselsInner }) {
     });
 
     return {
-        currentSlide, slideAmount, transitionName, isTransitionend, carouselState,
+        currentSlide, slideAmount, isTransitionend, carouselState,
         prevSlide, nextSlide, changeSlide, enabledAutoPlay, pauseAutoPlay, toggleActive,
         handleMouseDown, handleMouseMove ,handleMouseLeave, handleMouseUp
     };
