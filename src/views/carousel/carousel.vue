@@ -10,8 +10,10 @@
 
     <div class="images">
         <owlCarousel :autoPlay="false" :perPage="3" :customItemHeight="400">
-            <owlSlide v-for="(image ,idx) of 12" :key="idx" >
-                <img src="https://picsum.photos/400/400" alt="picsum" />
+            <owlSlide v-for="(image ,idx) of 12" :key="idx">
+                <a href="https://google.com" target="_blank">
+                    <img src="https://picsum.photos/400/400" alt="picsum" />
+                </a>
             </owlSlide>
         </owlCarousel>
     </div>

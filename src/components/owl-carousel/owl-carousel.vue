@@ -7,10 +7,14 @@
                 }">
 
         <div class="carousel-inner" ref="carouselsInner"
-            @mousedown="handleMouseDown"
-            @mouseleave="handleMouseLeave"
-            @mouseup="handleMouseUp"
-            @mousemove="handleMouseMove"
+            @mousedown.prevent="handleMouseDown"
+            @mouseleave.prevent="handleMouseLeave"
+            @mouseup.prevent="handleMouseUp"
+            @mousemove.prevent="handleMouseMove"
+            @touchstart.prevent="handleMouseDown"
+            @touchcancel.prevent="handleMouseLeave"
+            @touchend.prevent="handleMouseUp"
+            @touchmove.prevent="handleMouseMove"
             :style="{ '--carouselLeft': carouselState.carouselLeft }">
             <slot :currentSlide="currentSlide"></slot>
         </div>
@@ -97,6 +101,20 @@ export default {
             handleMouseDown, handleMouseMove ,handleMouseLeave, handleMouseUp
         } = useSlide({props, carouselsInner});
 
+        const tD  = () => {
+            console.log('tD');
+        };
+        const tE  = () => {
+            console.log('tE');
+        };
+        const tC  = () => {
+            console.log('tC');
+        };
+        const tM  = () => {
+            console.log('tM');
+
+        };
+
         onMounted(() => {
             carouselsInner.value.ontransitionend = () => toggleActive();
             carouselsInner.value.ontransitioncancel = () => toggleActive();
@@ -106,7 +124,8 @@ export default {
             owlCarousels, carouselsInner, carouselState, currentSlide, slideAmount, isTransitionend,
             navigationEnabled, paginationEnabled,
             handleMouseDown, handleMouseLeave, handleMouseUp, handleMouseMove,
-            prevSlide, nextSlide, changeSlide, enabledAutoPlay, pauseAutoPlay
+            prevSlide, nextSlide, changeSlide, enabledAutoPlay, pauseAutoPlay,
+            tD, tE, tC, tM
         };
     }
 }

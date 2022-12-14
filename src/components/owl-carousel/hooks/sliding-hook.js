@@ -7,7 +7,7 @@ export function useSlide ({ props, carouselsInner }) {
     const currentSlide = ref(0);
     const interval = ref(null);
     const isTransitionend = ref(true);
-    const towingRange = ref(20);
+    const towingRange = ref(10);
 
     const carouselState = reactive({
         isPressed: false,
@@ -92,21 +92,26 @@ export function useSlide ({ props, carouselsInner }) {
         if(e.pageX < carouselState.startX && _movingRange > 0 && _movingRange > towingRange.value) {
             e.preventDefault();
             nextSlide();
+            carouselState.isPressed = false;
             isTransitionend.value = false;
         } else if(e.pageX > carouselState.startX && _movingRange < 0 && _movingRange < -towingRange.value) {
             e.preventDefault();
             prevSlide();
+            carouselState.isPressed = false;
             isTransitionend.value = false;
         } else {
             carouselState.carouselLeft = `${ _currentPageX }%`;
         };
-
     };
 
-    const handleMouseLeave = (e) => { carouselState.isPressed = false; };
+    const handleMouseLeave = (e) => {
+        carouselState.isPressed = false;
+    };
 
     const handleMouseUp = (e) => {
         carouselState.isPressed = false;
+        
+        /* 滑鼠點下時重新計算「滑鼠移動距離」:((滑鼠點擊 x 值 - 滑鼠每次移動 x 值) / (carousel-inner 的 offsetWidth / 總頁數)) * 100 */
         const _movingRange = (( carouselState.startX - e.pageX ) / ( carouselState.offsetWidth / slideAmount.value )) * 100;
 
         if(e.pageX < carouselState.startX && _movingRange > 0 && _movingRange < towingRange.value || e.pageX > carouselState.startX && _movingRange < 0 && _movingRange > -towingRange.value) {
@@ -121,11 +126,8 @@ export function useSlide ({ props, carouselsInner }) {
         /* 計算每頁總間距：總頁數 * 間距 */
         let _totalSpacing = props.perPage * _space;
 
-        /* 移動偏移距離：
-           如果總頁數等於 1 2; (當前頁面 + 1) *  總間距
-           如果總頁數大於 1 當前頁面 * 總間距
-        */
-        let _offset = props.perPage == 1 ? (currentSlide.value + props.perPage) * _totalSpacing : currentSlide.value * _totalSpacing;
+        /* 移動偏移距離：當前頁面 * 總間距 */
+        let _offset = currentSlide.value * _totalSpacing;
 
         /* 每次移動距離：(當前頁面 * 100%) + (-移動偏移距離)px */
         carouselState.carouselLeft = `calc(-${ currentSlide.value * 100 }% + -${ _offset }px)`;
