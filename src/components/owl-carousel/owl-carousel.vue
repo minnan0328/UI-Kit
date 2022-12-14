@@ -56,6 +56,10 @@ export default {
             type: Boolean,
             default: true
         },
+        loops: {
+            type: Boolean,
+            default: false
+        },
         /* 動畫過渡時間，單位豪秒 */
         timeDetention: {
             type: Number,

@@ -136,9 +136,22 @@ export function useSlide ({ props, carouselsInner }) {
     onMounted(() => {
         
         /* 取得目前 owl-slide 數量 */
-        slideElement.value = [...carouselsInner.value.children].filter(carousel => carousel.className === 'owl-slide');
+        slideElement.value = [...carouselsInner.value.children].filter(carousel => {
+            carousel.classList.add('active')
+            return carousel.className === 'owl-slide active';
+        });
+        
         /* 計算分頁數量：owl-slide 數量 / 每頁幾個 */
         slideAmount.value = Math.ceil(slideElement.value.length / props.perPage);
+
+        if(props.loops) {
+            let firstNode = slideElement.value[0].cloneNode(true);
+            let lastNode = slideElement.value[slideElement.value.length - 1].cloneNode(true);
+            firstNode.classList.remove('active');
+            lastNode.classList.remove('active');
+            carouselsInner.value.append(firstNode);
+            carouselsInner.value.prepend(lastNode);
+        }
 
         /*  判斷是否啟用自動播放 */
         if(props.autoPlay) {

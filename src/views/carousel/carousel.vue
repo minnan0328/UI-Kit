@@ -1,19 +1,17 @@
 <template>
 
     <div class="images">
-        <owlCarousel :autoPlay="false" :customItemHeight="400">
-            <owlSlide v-for="(image ,idx) of images" :key="idx" >
+        <owlCarousel :autoPlay="false" :loops="true" :customItemHeight="400">
+            <owlSlide v-for="(image ,idx) of images" :key="idx">
                 <img :src="image.media" :alt="image.mediaText" />
             </owlSlide>
         </owlCarousel>
     </div>
 
     <div class="images">
-        <owlCarousel :autoPlay="false" :perPage="3" :customItemHeight="400">
-            <owlSlide v-for="(image ,idx) of 12" :key="idx">
-                <a href="https://google.com" target="_blank">
-                    <img src="https://picsum.photos/400/400" alt="picsum" />
-                </a>
+        <owlCarousel :autoPlay="false" :perPage="1" :customItemHeight="400">
+            <owlSlide v-for="(video ,idx) of videos" :key="idx">
+                <video :src="video.media" :alt="video.mediaText" muted autoplay loop playsInline></video>
             </owlSlide>
         </owlCarousel>
     </div>
