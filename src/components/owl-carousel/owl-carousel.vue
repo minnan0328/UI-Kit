@@ -1,15 +1,17 @@
 <template>
     <div class="owl-carousel" ref="owlCarousels"
         :style="{ '--customItemWidth': customItemWidth ? `${customItemWidth}px` : `100vw`,
-                  '--customItemHeight': customItemHeight ? `${customItemHeight}px` : `100vh`
+                  '--customItemHeight': customItemHeight ? `${customItemHeight}px` : `100vh`,
+                  '--perPage': perPage,
+                  '--currentSlide': currentSlide
                 }">
 
-        <div class="slide-inner" ref="carouselsInner"
+        <div class="carousel-inner" ref="carouselsInner"
             @mousedown="handleMouseDown"
             @mouseleave="handleMouseLeave"
             @mouseup="handleMouseUp"
             @mousemove="handleMouseMove"
-            :style="{'--carouselLeft': carouselState.carouselLeft}">
+            :style="{ '--carouselLeft': carouselState.carouselLeft }">
             <slot :currentSlide="currentSlide"></slot>
         </div>
 
@@ -35,12 +37,16 @@
 </template>
 <script>
 
-import { ref, reactive, computed, onMounted, provide } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useSlide } from '@/components/owl-carousel/hooks/sliding-hook.js';
 
 export default {
     name: 'owl-carousel',
     props: {
+        perPage: {
+            type: Number,
+            default: 1
+        },
         /* 自動播放 */
         autoPlay: {
             type: Boolean,

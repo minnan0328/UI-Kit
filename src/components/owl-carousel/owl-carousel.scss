@@ -1,24 +1,50 @@
 @import '@/styles/_var';
+
+:root {
+    --customItemWidth: 100vw;
+    --customItemHeight: 100vh;
+    --carouselLeft: 0%;
+    --perPage: 1;
+    --currentSlide: 1;
+}
+
 .owl-carousel {
     position: relative;
     overflow: hidden;
-
     width: 100vw;
+    min-width: inherit;
+    max-width: inherit;
     height: var(--customItemHeight);
+    min-height: inherit;
+    max-height: inherit;
 
-    .slide-inner {
+    .carousel-inner {
         overflow: auto;
         display: flex;
         left: var(--carouselLeft);
         overflow: hidden;
         position: absolute;
         cursor: pointer;
-        transition: all .5s;
+        transition: all .5s ease-in-out;
     }
 
     &::v-deep(.owl-slide) {
-        width: var(--customItemWidth);
+        $slideWidth: calc(100vw / var(--perPage));
+        width: $slideWidth;
+        min-width: $slideWidth;
+        max-width: $slideWidth;
         height: var(--customItemHeight);
+        min-height: inherit;
+        max-height: inherit;
+        margin: auto 4px;
+
+        &:first-child {
+            margin-left: 0;
+        }
+        
+        &:last-child {
+            margin-right: 0;
+        }
 
         a {
             width: inherit;
@@ -52,7 +78,6 @@
         }
     }
     
-
     .navigation {
         .btn-navigation {
             position: absolute;

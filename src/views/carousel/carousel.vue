@@ -9,6 +9,30 @@
     </div>
 
     <div class="images">
+        <owlCarousel :autoPlay="false" :perPage="3" :customItemHeight="400">
+            <owlSlide v-for="(image ,idx) of 12" :key="idx" >
+                <img src="https://picsum.photos/400/400" alt="picsum" />
+            </owlSlide>
+        </owlCarousel>
+    </div>
+
+    <div class="images">
+        <owlCarousel :autoPlay="false" :perPage="4" :customItemHeight="400">
+            <owlSlide v-for="(image ,idx) of 12" :key="idx" >
+                <img src="https://picsum.photos/400/400" alt="picsum" />
+            </owlSlide>
+        </owlCarousel>
+    </div>
+
+    <div class="images">
+        <owlCarousel :autoPlay="false" :perPage="6" :customItemWidth="400" :customItemHeight="400">
+            <owlSlide v-for="(image ,idx) of 12" :key="idx" >
+                <img src="https://picsum.photos/400/400" alt="picsum" />
+            </owlSlide>
+        </owlCarousel>
+    </div>
+
+    <div class="images">
         <carousel v-slot:default="{ currentSlide }" :customHeight="400">
             <slide v-for="(image ,idx) of images" :key="idx" v-show="(idx === currentSlide)">
                 <img :src="image.media" :alt="image.mediaText" />

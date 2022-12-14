@@ -7,6 +7,7 @@ export function useSlide ({ props, carouselsInner }) {
     const currentSlide = ref(0);
     const interval = ref(null);
     const isTransitionend = ref(true);
+    const towingRange = ref(20);
 
     const carouselState = reactive({
         isPressed: false,
@@ -60,62 +61,82 @@ export function useSlide ({ props, carouselsInner }) {
         if(newValue < 0) {
             currentSlide.value = 0;
             toggleActive();
-        } else if(newValue > slideAmount.value - 1) {
+        } else if( newValue > slideAmount.value - 1 ) {
             currentSlide.value = slideAmount.value - 1;
             toggleActive();
         } else {
-            carouselState.carouselLeft = `-${currentSlide.value * 100}%`;
-        }
+            distanceTraveled();
+        };
     });
 
     const handleMouseDown = (e) => {
         carouselState.isPressed = true;
         carouselState.startX = e.pageX;
-        carouselState.pageX = e.pageX - carouselsInner.value.offsetLeft;
+        carouselState.offsetLeft = carouselsInner.value.offsetLeft;
         carouselState.offsetWidth = carouselsInner.value.offsetWidth;
     };
 
     const handleMouseMove = (e) => {
         if(!carouselState.isPressed) {
-            return
+            return;
         };
         
         e.preventDefault();
 
-        const currentPageX = (((e.pageX - carouselState.pageX) / carouselState.offsetWidth) * slideAmount.value) * 100;
-        const movingRange = ((carouselState.startX - e.pageX) / (carouselState.offsetWidth / slideAmount.value)) * 100;
-        
-        if(e.pageX < carouselState.startX && movingRange > 0 && movingRange > 30) {
+        /* 目前移動距離：根據 (滑鼠每次移動 x 值 - (滑鼠點擊 x 值 - carousel-inner 的 offsetLeft) / carousel-inner 的 offsetWidth) * 總頁數) * 100 */
+        const _currentPageX = (((e.pageX - (carouselState.startX - carouselState.offsetLeft)) / carouselState.offsetWidth) * slideAmount.value) * 100;
+
+        /* 滑鼠點下時重新計算「滑鼠移動距離」:((滑鼠點擊 x 值 - 滑鼠每次移動 x 值) / (carousel-inner 的 offsetWidth / 總頁數)) * 100 */
+        const _movingRange = ((carouselState.startX - e.pageX) / (carouselState.offsetWidth / slideAmount.value)) * 100;
+
+        if(e.pageX < carouselState.startX && _movingRange > 0 && _movingRange > towingRange.value) {
             e.preventDefault();
             nextSlide();
             isTransitionend.value = false;
-        } else if(e.pageX > carouselState.startX && movingRange < 0 && movingRange < -10) {
+        } else if(e.pageX > carouselState.startX && _movingRange < 0 && _movingRange < -towingRange.value) {
             e.preventDefault();
             prevSlide();
             isTransitionend.value = false;
         } else {
-            carouselState.carouselLeft = `${currentPageX}%`;
-        }
+            carouselState.carouselLeft = `${ _currentPageX }%`;
+        };
 
     };
 
-    const handleMouseLeave = (e) => {
-        carouselState.isPressed = false;
-    };
+    const handleMouseLeave = (e) => { carouselState.isPressed = false; };
 
     const handleMouseUp = (e) => {
         carouselState.isPressed = false;
-        const movingRange = ((carouselState.startX - e.pageX) / (carouselState.offsetWidth / slideAmount.value)) * 100;
+        const _movingRange = (( carouselState.startX - e.pageX ) / ( carouselState.offsetWidth / slideAmount.value )) * 100;
 
-        if(e.pageX < carouselState.startX && movingRange > 0 && movingRange < 30 || e.pageX > carouselState.startX && movingRange < 0 && movingRange > -10)  {
-            carouselState.carouselLeft = `-${currentSlide.value * 100}%`;
+        if(e.pageX < carouselState.startX && _movingRange > 0 && _movingRange < towingRange.value || e.pageX > carouselState.startX && _movingRange < 0 && _movingRange > -towingRange.value) {
+            distanceTraveled();
         }
+    };
+
+    const distanceTraveled = () => {
+        /* 每個 cell 8px 間距 */
+        let _space = 8;
+
+        /* 計算每頁總間距：總頁數 * 間距 */
+        let _totalSpacing = props.perPage * _space;
+
+        /* 移動偏移距離：
+           如果總頁數等於 1 2; (當前頁面 + 1) *  總間距
+           如果總頁數大於 1 當前頁面 * 總間距
+        */
+        let _offset = props.perPage == 1 ? (currentSlide.value + props.perPage) * _totalSpacing : currentSlide.value * _totalSpacing;
+
+        /* 每次移動距離：(當前頁面 * 100%) + (-移動偏移距離)px */
+        carouselState.carouselLeft = `calc(-${ currentSlide.value * 100 }% + -${ _offset }px)`;
     };
 
     onMounted(() => {
         
+        /* 取得目前 owl-slide 數量 */
         slideElement.value = [...carouselsInner.value.children].filter(carousel => carousel.className === 'owl-slide');
-        slideAmount.value = slideElement.value.length;
+        /* 計算分頁數量：owl-slide 數量 / 每頁幾個 */
+        slideAmount.value = Math.ceil(slideElement.value.length / props.perPage);
 
         /*  判斷是否啟用自動播放 */
         if(props.autoPlay) {
