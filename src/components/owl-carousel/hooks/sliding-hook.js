@@ -1,4 +1,4 @@
-import { ref, reactive, watch, onMounted  } from 'vue';
+import { ref, reactive, computed, watch, onMounted  } from 'vue';
 
 export function useSlide ({ props, carouselsInner }) {
 
@@ -16,6 +16,11 @@ export function useSlide ({ props, carouselsInner }) {
         carouselLeft: '0%',
         offsetWidth: 0
     });
+
+    /* 是否啟用上一頁按鈕：當啟用 loops 永遠啟用，否則當前頁面 == 0 時 disabled 按鈕 */
+    const isPrevSlide = computed(() => props.loops ? false : currentSlide.value == 0);
+    /* 是否啟用下一頁按鈕：當啟用 loops 永遠啟用，否則當前頁面 == 總頁數 時 disabled 按鈕 */
+    const isNextSlide = computed(() => props.loops ? false : currentSlide.value == slideAmount.value - 1);
 
     /* 上一個 slide */
     const prevSlide = () => {
@@ -59,10 +64,10 @@ export function useSlide ({ props, carouselsInner }) {
 
     watch(currentSlide, ( newValue, oldValue ) => {
         if(newValue < 0) {
-            currentSlide.value = 0;
+            currentSlide.value = props.loops ? slideAmount.value - 1 : 0;
             toggleActive();
         } else if( newValue > slideAmount.value - 1 ) {
-            currentSlide.value = slideAmount.value - 1;
+            currentSlide.value = props.loops ? 0 : slideAmount.value - 1;
             toggleActive();
         } else {
             distanceTraveled();
@@ -130,10 +135,13 @@ export function useSlide ({ props, carouselsInner }) {
         let _offset = currentSlide.value * _totalSpacing;
 
         /* 每次移動距離：(當前頁面 * 100%) + (-移動偏移距離)px */
-        carouselState.carouselLeft = `calc(-${ currentSlide.value * 100 }% + -${ _offset }px)`;
+        carouselState.carouselLeft = `calc(-${ (currentSlide.value += props.loops ? 0 : 0) * 100 }% + -${ _offset }px)`;
     };
 
     onMounted(() => {
+
+        carouselsInner.value.ontransitionend = () => toggleActive();
+        carouselsInner.value.ontransitioncancel = () => toggleActive();
         
         /* 取得目前 owl-slide 數量 */
         slideElement.value = [...carouselsInner.value.children].filter(carousel => {
@@ -145,12 +153,13 @@ export function useSlide ({ props, carouselsInner }) {
         slideAmount.value = Math.ceil(slideElement.value.length / props.perPage);
 
         if(props.loops) {
-            let firstNode = slideElement.value[0].cloneNode(true);
-            let lastNode = slideElement.value[slideElement.value.length - 1].cloneNode(true);
+            let firstNode = slideElement.value[slideAmount.value - 1].cloneNode(true);
+            let secondNode = slideElement.value[1].cloneNode(true);
             firstNode.classList.remove('active');
-            lastNode.classList.remove('active');
-            carouselsInner.value.append(firstNode);
-            carouselsInner.value.prepend(lastNode);
+            secondNode.classList.remove('active');
+            // carouselsInner.value.append(firstNode);
+            carouselsInner.value.prepend(firstNode);
+            carouselsInner.value.prepend(secondNode);
         }
 
         /*  判斷是否啟用自動播放 */
@@ -162,6 +171,7 @@ export function useSlide ({ props, carouselsInner }) {
 
     return {
         currentSlide, slideAmount, isTransitionend, carouselState,
+        isPrevSlide, isNextSlide,
         prevSlide, nextSlide, changeSlide, enabledAutoPlay, pauseAutoPlay, toggleActive,
         handleMouseDown, handleMouseMove ,handleMouseLeave, handleMouseUp
     };

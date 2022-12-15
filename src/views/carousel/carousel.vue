@@ -1,7 +1,7 @@
 <template>
 
     <div class="images">
-        <owlCarousel :autoPlay="false" :loops="true" :customItemHeight="400">
+        <owlCarousel :autoPlay="false" :customItemHeight="400">
             <owlSlide v-for="(image ,idx) of images" :key="idx">
                 <img :src="image.media" :alt="image.mediaText" />
             </owlSlide>

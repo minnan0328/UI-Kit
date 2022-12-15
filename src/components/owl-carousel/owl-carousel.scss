@@ -91,9 +91,14 @@
 
             @media (hover: hover) and (pointer: fine) {
                 /* touch browsers 不觸發 hover css style */
-                &:hover {
+                &:hover:not(:disabled) {
                     background-color: $emerald;
                 }
+            }
+
+            &:disabled {
+                opacity: .3;
+                cursor: no-drop;
             }
 
             &.icon-arrow-left {
