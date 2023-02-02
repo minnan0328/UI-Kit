@@ -1,10 +1,93 @@
 @import '@/styles/_var';
 
+@import '@/styles/_var.scss';
+
+@mixin create-button($color, $bg-color, $hover-bg-color, $press-color: $color, $press-bg-color: $hover-bg-color) {
+    position: relative;
+    padding: 1rem .5rem;
+    font-size: $font-size-16;
+    font-weight: $font-weight-bold;
+    border-radius: 4px;
+    white-space: nowrap;
+    color: $color;
+    background-color: $bg-color;
+    z-index: 1;
+    transition: all 0.25s ease-in-out;
+    cursor: pointer;
+
+    &::before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index: -1;
+        background-color: $hover-bg-color;
+        transform: scaleX(0);
+        transform-origin: right;
+        transition: transform 0.25s ease-in-out;
+    }
+
+    &:not(:disabled) {
+        &:hover,
+        &:hover::before {
+            background-color: $hover-bg-color;
+        }
+
+        &:active,
+        &:active:before {
+            color: $press-color;
+            background-color: $press-bg-color;
+        }
+
+        &:hover::before,
+        &:active::before {
+            transform: scaleX(1);
+            border-radius: 4px;
+            transform-origin: left;
+        }
+    }
+
+    &:disabled {
+        color: $light-gray;
+        background-color: $gray;
+        cursor: no-drop;
+    }
+}
+
+.btn-emerald {
+    @include create-button($color: $white, $bg-color: $emerald, $hover-bg-color: #21855f, $press-color: $white, $press-bg-color: #21855f);
+}
 
 .btn-icon {
-    background: none;
-    border: 0;
-    margin: 0;
+    background-color: unset;
+    border: unset;
+    border-radius: 4px;
     padding: 0;
-    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+
+    &:not(:disabled) {
+        &:hover {
+            background-color: rgba($gray,.4);
+        }
+
+        &:active {
+            background-color: $light-gray;
+        }
+    }
+
+    &:disabled {
+        color: $gray;
+        background-color: unset;
+        cursor: no-drop;
+    }
+}
+
+
+.btn-group {
+    display: inline-block;
+    &:not(:last-child) {
+        margin-right: 1rem;
+    }
 }

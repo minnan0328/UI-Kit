@@ -39,19 +39,19 @@ $white-lynx:           #fafafa;
 }
 
 @mixin pad-down {
-    @media (max-width: $xl - 1) {
+    @media (max-width: $container - 1) {
         @content;
     }
 }
 
 @mixin pad-up {
-    @media (min-width: $md) {
+    @media (min-width: $container-md) {
         @content;
     }
 }
 
 @mixin pc {
-    @media (min-width: $xl) {
+    @media (min-width: $container) {
         @content;
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <div class="menus">
+    <div class="menus container">
         <div class="menu-left">
             
         </div>
@@ -40,6 +40,12 @@ export default {
     .menu-item {
         display: inline-block;
         padding: 8px 16px;
+    }
+}
+
+@include pad-down {
+    .menus {
+        justify-content: center;
     }
 }
 </style>

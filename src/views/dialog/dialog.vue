@@ -1,9 +1,10 @@
 <template>
-    <div>dialog</div>
+    <div class="container">
+        <button class="btn-emerald btn-group" @click="toast">Toast</button>
+        <button class="btn-emerald btn-group" @click="alert">Alert</button>
+        <button class="btn-emerald btn-group" @click="confirm">Confirm</button>
+    </div>
 
-    <button class="btn-navy" @click="toast">Toast</button>
-    <button class="btn-navy" @click="alert">Alert</button>
-    <button class="btn-navy" @click="confirm">Confirm</button>
 </template>
 <script>
 import { ref, getCurrentInstance } from 'vue';
