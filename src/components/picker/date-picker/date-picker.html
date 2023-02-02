@@ -12,10 +12,10 @@
                     <button class="btn-icon icon-arrow-left" @click="currentDatePicker.toPrevDate()"></button>
                 </div>
                 <div class="text">
-                    <button class="btn-month me-1" @click="currentDatePicker = month"
+                    <button class="btn-month" @click="currentDatePicker = month"
                             v-text="months[currentDatePicker.date().month()]">
                     </button>
-                    <button class="btn-year ms-1" @click="currentDatePicker = year"
+                    <button class="btn-year" @click="currentDatePicker = year"
                             v-text="currentDatePicker.date().year()">
                     </button>
                 </div>
