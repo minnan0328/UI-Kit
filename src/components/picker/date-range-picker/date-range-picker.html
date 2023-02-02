@@ -1,0 +1,69 @@
+<div class="date-picker range" v-clickaway="close">
+    <div :class="['date-picker-date', disabled ? 'disabled' : '']">
+        <input :value="currentValue" :class="{'invalid': invalid}" :placeholder="placeholder" readonly
+               :disabled="disabled" @click="open = !open" ref="date" />
+        <button class="btn-icon icon-close" :disabled="disabled" @click.stop="updateValue('')" v-if="currentValue"></button>
+        <button class="btn-icon icon-calendar" v-else></button>
+    </div>
+    <div class="date-picker-dates" v-if="open">
+        <div class="week-box">
+            <div class="header">
+                <div class="arrow">
+                    <button class="btn-icon icon-arrow-left" @click="currentDatePicker.toPrevDate()"></button>
+                </div>
+                <div class="text">
+                    <button class="btn-month me-1" @click="currentDatePicker = month"
+                            v-text="months[currentDatePicker.date().month()]">
+                    </button>
+                    
+                    <button class="btn-year ms-1" @click="currentDatePicker = year"
+                            v-text="currentDatePicker.date().year()">
+                    </button>
+                </div>
+                <div class="arrow">
+                    <button class="btn-icon icon-arrow-right" @click="currentDatePicker.toNextDate()"></button>
+                </div>
+            </div>
+            <div class="content">
+                <template v-if="currentDatePicker.type == pickerTypes.Day.id">
+                    <div class="weeks">
+                        <p class="week" v-for="(week,idx) in weekdays" :key="idx" v-text="week"></p>
+                    </div>
+                    <div class="days">
+                        <div :class="['cell', {
+                                      'active': isSelectedDateRange(day.date),
+                                      'start-date': isSelectedStartDate(day.date),
+                                      'end-date': isSelectedEndDate(day.date)
+                                    }]" v-for="(day,idx) in currentDatePicker.getDays().dates" :key="idx">
+                                    
+                            <button :class="['btn-day', {
+                                             'not-current-month': !day.isCurrentMonth,
+                                             'today': day.isToday,
+                                            }]" :disabled="day.isDisabled" v-text="day.day"
+                                    @click.stop="sendSelectDate(day.date)">
+                            </button>
+                        </div>
+                    </div>
+                </template>
+
+                <div class="months" v-if="currentDatePicker.type == pickerTypes.Month.id">
+                    <div class="cell" v-for="(month,idx) in currentDatePicker.getMonths().months" :key="idx">
+                        <button :class="['btn-month', { 'active': isSelectedMonth(currentDatePicker.getMonths().year, idx) }]"
+                                :disabled="month.isDisabled" v-text="month.month"
+                                @click.stop="sendSelectMonth(currentDatePicker.getMonths().year, idx)">
+                        </button>
+                    </div>
+                </div>
+
+                <div class="years" v-if="currentDatePicker.type == pickerTypes.Year.id">
+                    <div class="cell" v-for="(year,idx) in currentDatePicker.getYears().years" :key="idx">
+                        <button :class="['btn-year', { 'active': isSelectedYear(year.year) }]"
+                                :disabled="year.isDisabled" v-text="year.year"
+                                @click.stop="sendSelectYear(year.year)">
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

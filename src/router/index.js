@@ -20,6 +20,10 @@ const router = createRouter({
 				{
 					...url.carousel,
 					component: () => import('@/views/carousel/carousel.vue')
+				},
+				{
+					...url.picker,
+					component: () => import('@/views/picker/picker.vue')
 				}
 			]
 		},
